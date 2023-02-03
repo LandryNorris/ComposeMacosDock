@@ -27,7 +27,8 @@ fun commonMain() {
     NSApplication.sharedApplication()
 
     Window {
-        Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
+        Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally) {
             Text("Counter is $counter")
             Row {
                 Button(onClick = { counter-- }) { Text("Decrement") }
@@ -54,7 +55,7 @@ fun createIcon(): NSImage {
     val scene = ImageComposeScene(128, 128) {
         Box(modifier = Modifier.fillMaxSize().background(Color.White),
             contentAlignment = Alignment.Center) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Column {
                 Text("Counter:")
                 Text(counter.toString())
             }
