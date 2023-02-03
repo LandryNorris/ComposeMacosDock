@@ -31,6 +31,13 @@ fun commonMain() {
     NSApplication.sharedApplication()
 
     Window {
+        Dock(128, 128) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text("Counter:")
+                Text(counter.toString())
+            }
+        }
+
         Column(modifier = Modifier.fillMaxSize().background(Color.LightGray),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally) {
@@ -40,41 +47,7 @@ fun commonMain() {
                 Button(onClick = { counter++ }) { Text("Increment") }
             }
         }
-
-        LaunchedEffect(Unit) {
-            while(true) {
-                val imageView = NSImageView()
-                imageView.image = createIcon()
-
-                NSApp?.dockTile?.setContentView(imageView)
-                NSApp?.dockTile?.display()
-                delay(1000)
-            }
-        }
     }
 
     NSApp?.run()
-}
-
-fun createIcon(): NSImage {
-    val scene = ImageComposeScene(100, 100) {
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .clip(RoundedCornerShape(20.dp))
-            .background(Color.White),
-            contentAlignment = Alignment.Center) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text("Counter:")
-                Text(counter.toString())
-            }
-        }
-    }
-
-    val bytes = scene.render().encodeToData()?.bytes ?: error("Unable to get Data from scene")
-
-    val data = bytes.usePinned {
-        NSData.dataWithBytes(it.addressOf(0), bytes.size.toULong())
-    }
-
-    return NSImage(data = data)
 }
